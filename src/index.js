@@ -23,6 +23,7 @@ app.set('views', 'src/views')
 app.use(express.static(path.join("src", "public")))
 
 app.use('/admin/produto', produtoRoute)
+// Rotas
 //app.use('/admin/quadra', quadraRoute)
 //app.use('/caixa', caixaRoute)
 
