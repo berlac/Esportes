@@ -16,10 +16,10 @@ routes.get('/add', produtoController.openadd)
 routes.post('/add', produtoController.add)
 
 // Open Edit
-routes.get('/edt/:id', produtoController.openedit) 
+routes.get('/edit/:id', produtoController.openedit) 
 
 // Edit
-routes.post('/edt/:id', produtoController.edit)
+routes.post('/edit/:id', produtoController.edit)
 
 // Delete
 routes.get('/del/:id', produtoController.delete)

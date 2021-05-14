@@ -33,10 +33,26 @@ module.exports = {
         });
     },
     async openedit(req, res){
-
+        const id = req.params.id;
+        const produto = await Produto.findByPk(id);
+        return res.render('admin/produto/edit.ejs', { 'Produto': produto, 'msg': req.flash('msg')})
     },
     async edit(req, res){
-
+        const id = req.params.id;
+        const produto = await Produto.findByPk(id);
+        produto.nome = req.body.nome;
+        produto.valor = req.body.valor;
+        produto.tipo = req.body.tipo;
+        produto.save().then(
+            (produto) => {
+                req.flash('msg', produto.nome + ' foi alterado com sucesso!')
+                res.render('admin/produto/edit.ejs', { 'Produto': produto, 'msg': req.flash('msg')})
+            },
+            (err) => {
+                req.flash('msg', 'Problema ao alterar o produto')
+                res.render('admin/produto/edit.ejs', { 'Produto': produto, 'msg': req.flash('msg')})
+            }
+        );
     },
     async delete(req, res){
         
