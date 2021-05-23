@@ -18,7 +18,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(flash())
 
 app.set('view engine', 'ejs')
-app.set('views', 'src/views')
+app.set('views', __dirname + '/views')
 
 app.use(express.static(path.join("src", "public")))
 

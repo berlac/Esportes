@@ -55,6 +55,18 @@ module.exports = {
         );
     },
     async delete(req, res){
-        
+        const id = req.params.id;
+        await Produto.destroy({where: {
+            id:id
+        }}).then(
+            () => {
+                req.flash('msg', 'Produto foi deletado com sucesso!')
+                res.redirect('/admin/produto/')
+            },
+            (err) => {
+                req.flash('msg', 'Problema ao deletar o produto')
+                res.redirect('/admin/produto/')
+            }
+        );
     }
 }
