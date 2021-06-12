@@ -7,6 +7,7 @@ var session = require('express-session')
 require('./database/index')
 
 var produtoRoute = require('./routes/produtoRoute')
+var userRoute = require('./routes/userRoute')
 var quadraRoute = require('./routes/quadraRoute')
 var caixaRoute = require('./routes/caixaRoute')
 const app = express();
@@ -23,6 +24,7 @@ app.set('views', __dirname + '/views')
 app.use(express.static(path.join("src", "public")))
 
 app.use('/admin/produto', produtoRoute)
+app.use('/admin/user', userRoute)
 // Rotas
 //app.use('/admin/quadra', quadraRoute)
 //app.use('/caixa', caixaRoute)

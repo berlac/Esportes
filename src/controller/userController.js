@@ -26,21 +26,21 @@ module.exports = {
         const nome = req.body.nome
         const email = req.body.email
         var senha = req.body.senha
-        const avatar = req.file.avatar
+        const avatar = req.file.filename
 
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(senha, salt, (hash) => {
+        bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(senha, salt, function(err, hash) {
                 senha = hash;
-            })
-        });
-
-        await User.create({ nome, email, senha, avatar }).then(
-            (user) => {
-                req.flash('msg', user.nome + ' foi adicionado com sucesso!')
-                res.redirect('/admin/usuario/add');
-            }, (err) => {
-                req.flash('msg', 'Houve um erro ao adicionar o usuário')
-                res.redirect('/admin/usuario/add');
+                User.create({ nome, email, senha, avatar }).then(
+                    (user) => {
+                        req.flash('msg', user.nome + ' foi adicionado com sucesso!')
+                        res.redirect('/admin/user/add');
+                    },
+                    (err) => {
+                        req.flash('msg', 'Houve um erro ao adicionar o usuário')
+                        res.redirect('/admin/user/add');
+                });
+            });
         });
     },
     async openedit(req, res){
@@ -54,27 +54,27 @@ module.exports = {
 
         var senha = req.body.senha
 
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(senha, salt, (hash) => {
+        
+        bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(senha, salt, function(err, hash) {
                 senha = hash;
+                user.nome = req.body.nome;
+                user.email = req.body.email;
+                user.senha = senha;
+                user.avatar = req.file.avatar;
+                
+                user.save().then(
+                    (user) => {
+                        req.flash('msg', user.nome + ' foi alterado com sucesso!')
+                        res.render('admin/usuario/edit.ejs', { 'User': user, 'msg': req.flash('msg')})
+                    },
+                    (err) => {
+                        req.flash('msg', 'Problema ao alterar o usuário')
+                        res.render('admin/usuario/edit.ejs', { 'User': user, 'msg': req.flash('msg')})
+                    }
+                );
             })
         });
-
-        user.nome = req.body.nome;
-        user.email = req.body.email;
-        user.senha = senha;
-        user.avatar = req.file.avatar;
-        
-        user.save().then(
-            (user) => {
-                req.flash('msg', user.nome + ' foi alterado com sucesso!')
-                res.render('admin/usuario/edit.ejs', { 'User': user, 'msg': req.flash('msg')})
-            },
-            (err) => {
-                req.flash('msg', 'Problema ao alterar o usuário')
-                res.render('admin/usuario/edit.ejs', { 'User': user, 'msg': req.flash('msg')})
-            }
-        );
     },
     async delete(req, res){
         const id = req.params.id;
@@ -83,11 +83,11 @@ module.exports = {
         }}).then(
             () => {
                 req.flash('msg', 'Usuário foi deletado com sucesso!')
-                res.redirect('/admin/usuario/')
+                res.redirect('/admin/user/')
             },
             (err) => {
                 req.flash('msg', 'Problema ao deletar o usuário')
-                res.redirect('/admin/usuario/')
+                res.redirect('/admin/user/')
             }
         );
     }

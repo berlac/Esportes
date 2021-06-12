@@ -14,13 +14,13 @@ routes.post('/', userController.filter)
 routes.get('/add', userController.openadd)
 
 // Add
-routes.post('/add', upload.Single('photo'),userController.add)
+routes.post('/add', upload.single('avatar'),userController.add)
 
 // Open Edit
 routes.get('/edit/:id', userController.openedit) 
 
 // Edit
-routes.post('/edit/:id', upload.Single('photo'),userController.edit)
+routes.post('/edit/:id', upload.single('avatar'),userController.edit)
 
 // Delete
 routes.get('/del/:id', userController.delete)
